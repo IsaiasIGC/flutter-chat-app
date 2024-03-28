@@ -5,13 +5,13 @@ class Labels extends StatelessWidget {
 
   final String ruta;
   final String titulo;
-  final String subtitulo;
+  final String subTitulo;
 
   const Labels({
     super.key,
     required this.ruta,
     required this.titulo,
-    required this.subtitulo,
+    required this.subTitulo,
   });
 
   @override
@@ -25,7 +25,7 @@ class Labels extends StatelessWidget {
             onTap: () {
               Navigator.pushReplacementNamed(context, ruta);
             },
-            child: Text(subtitulo, style: TextStyle(color: Colors.blue[600], fontSize: 18, fontWeight: FontWeight.bold))
+            child: Text(subTitulo, style: TextStyle(color: Colors.blue[600], fontSize: 18, fontWeight: FontWeight.bold))
           ),
         ],
       ),

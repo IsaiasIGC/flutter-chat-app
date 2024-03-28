@@ -1,4 +1,6 @@
+import 'package:chat/services/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -17,21 +19,31 @@ class _UsuariosPageState extends State<UsuariosPage> {
   final RefreshController _refreshController = RefreshController(initialRefresh: false);
 
   final usuarios = [
-    Usuario(online: true, email: 'test1@test.com', name: 'María', uid: '1'),
-    Usuario(online: false, email: 'test2@test.com', name: 'Melissa', uid: '2'),
-    Usuario(online: true, email: 'test3@test.com', name: 'Fernando', uid: '3'),
+    Usuario(online: true, email: 'test1@test.com', nombre: 'María', uid: '1'),
+    Usuario(online: false, email: 'test2@test.com', nombre: 'Melissa', uid: '2'),
+    Usuario(online: true, email: 'test3@test.com', nombre: 'Fernando', uid: '3'),
   ];
 
   @override
   Widget build(BuildContext context) {
+
+    final authService = Provider.of<AuthService>(context);
+    final usuario = authService.usuario!;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Mi Nombre', style: TextStyle(color: Colors.black87)),
+        title: Text(usuario.nombre, style: const TextStyle(color: Colors.black87)),
         elevation: 1,
         backgroundColor: Colors.white,
         leading: IconButton(
-          icon: const Icon(Icons.exit_to_app),
-          onPressed: () {},
+          icon: const Icon(Icons.exit_to_app, color: Colors.black87),
+          onPressed: () {
+
+            // todo: deconectar del socket server
+            Navigator.pushReplacementNamed(context, 'login');
+            AuthService.deleteToken();
+
+          },
         ),
         actions: <Widget>[
           Container(
@@ -65,11 +77,11 @@ class _UsuariosPageState extends State<UsuariosPage> {
 
   ListTile _usuarioListTile(Usuario usuario) {
     return ListTile(
-        title: Text( usuario.name),
+        title: Text( usuario.nombre),
         subtitle: Text( usuario.email),
         leading: CircleAvatar(
           backgroundColor: Colors.blue[100],
-          child: Text(usuario.name.substring(0,2)),
+          child: Text(usuario.nombre.substring(0,2)),
         ),
         trailing: Container(
           width: 10,
