@@ -1,3 +1,4 @@
+import 'package:chat/services/socket_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -47,12 +48,15 @@ class _Form extends StatefulWidget {
 }
 
 class __FormState extends State<_Form> {
+
   final emailCtrl = TextEditingController();
   final passCtrl = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+
     final authService = Provider.of<AuthService>(context);
+    final socketService = Provider.of<SocketService>(context);
 
     return Container(
       margin: const EdgeInsets.only(top: 40),
@@ -82,7 +86,7 @@ class __FormState extends State<_Form> {
                         emailCtrl.text.trim(), passCtrl.text.trim());
 
                     if (loginOk) {
-                      // TODO: Conectar a nuestro socket server
+                      socketService.connect();
                       if (context.mounted) {
                         Navigator.pushReplacementNamed(context, 'usuarios');
                       }
